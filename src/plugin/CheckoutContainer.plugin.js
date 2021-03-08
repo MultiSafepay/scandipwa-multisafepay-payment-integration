@@ -1,26 +1,17 @@
 
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
-import { DETAILS_STEP, PAYMENT_TOTALS } from 'Route/Checkout/Checkout.config';
+import MultisafepayQuery from '../query/Multisafepay.query';
+import {BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS} from 'Route/Checkout/Checkout.config';
 import { getGuestQuoteId } from 'Util/Cart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { fetchMutation } from 'Util/Request';
+import { fetchMutation, fetchQuery } from 'Util/Request';
+import { isMultisafepayPayment } from '../util/Payment';
+import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
+
 
 export class CheckoutContainerPlugin {
-    // aroundComponentDidUpdate = (args, callback = () => {}, instance) => {
-    //     const { isProcessed = false, incrementId } = instance.props;
-    //     const { checkoutStep } = instance.state;
-    //
-    //     if (isProcessed && checkoutStep !== DETAILS_STEP) {
-    //         instance.setState({
-    //             isLoading: false,
-    //             paymentTotals: {},
-    //             checkoutStep: DETAILS_STEP,
-    //             orderID: incrementId
-    //         });
-    //     }
-    // };
 
     // eslint-disable-next-line no-unused-vars
     aroundSavePaymentMethodAndPlaceOrder = async (args, callback = () => {}, instance) => {
@@ -59,6 +50,54 @@ export class CheckoutContainerPlugin {
         }
     };
 
+    // eslint-disable-next-line no-unused-vars
+    aroundSaveAddressInformation = async (args, callback = () => {}, instance) => {
+        const { updateShippingPrice } = instance.props;
+        const { shipping_address } = args[0];
+
+        instance.setState({
+            isLoading: true,
+            shippingAddress: shipping_address
+        });
+
+        if (!isSignedIn()) {
+            if (!await instance.createUserOrSaveGuest()) {
+                instance.setState({ isLoading: false });
+                return;
+            }
+        }
+
+        fetchMutation(MultisafepayQuery.getSaveAddressInformation(
+            instance.prepareAddressInformation(args[0]),
+            getGuestQuoteId()
+        )).then(
+            ({ saveAddressInformation: data }) => {
+                const { payment_methods, totals } = data;
+
+                updateShippingPrice(totals);
+
+                BrowserDatabase.setItem(
+                    totals,
+                    PAYMENT_TOTALS,
+                    ONE_MONTH_IN_SECONDS
+                );
+
+                instance.setState({
+                    isLoading: false,
+                    paymentMethods: payment_methods,
+                    checkoutStep: BILLING_STEP,
+                    paymentTotals: totals
+                });
+            },
+            instance._handleError
+        );
+
+        // const queryData = await fetchQuery(
+        //     MultisafepayQuery.getPaymentMethodsWithAdditionalMeta(getGuestQuoteId())
+        // );
+    };
+
+
     /**
      *
      * @param args
@@ -71,7 +110,7 @@ export class CheckoutContainerPlugin {
         const { showErrorNotification } = instance.props;
         const { code, multisafepay_payment_errors, multisafepay_redirect_url } = args[1] || {};
 
-        if (code && (code.includes('multisafepay_') || code === 'multisafepay')) {
+        if (isMultisafepayPayment(code)) {
             if (multisafepay_payment_errors !== "") {
                 showErrorNotification(multisafepay_payment_errors);
                 instance.setState({ isLoading: false });
@@ -124,16 +163,16 @@ export class CheckoutContainerPlugin {
 
 const {
     aroundSavePaymentMethodAndPlaceOrder,
-    aroundSetDetailsStep
-    // aroundComponentDidUpdate
+    aroundSetDetailsStep,
+    aroundSaveAddressInformation
 } = new CheckoutContainerPlugin();
 
 export const config = {
     'Route/Checkout/Container': {
         'member-function': {
             savePaymentMethodAndPlaceOrder: aroundSavePaymentMethodAndPlaceOrder,
-            setDetailsStep: aroundSetDetailsStep
-            // componentDidUpdate: aroundComponentDidUpdate
+            setDetailsStep: aroundSetDetailsStep,
+            saveAddressInformation: aroundSaveAddressInformation
         }
     }
 };

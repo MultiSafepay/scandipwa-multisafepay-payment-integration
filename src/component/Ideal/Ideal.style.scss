@@ -1,0 +1,17 @@
+
+.Ideal {
+    margin-top: 2.4rem;
+
+    @include mobile {
+        margin-top: 2.8rem;
+    }
+
+    &-Form {
+        min-height: 200px;
+        border-radius: 5px;
+    }
+
+    .ideal-placeholder {
+        display: none;
+    }
+}

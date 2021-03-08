@@ -1,17 +1,16 @@
 
-
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 
 import Loader from 'Component/Loader';
 
-import { AFTERPAY_CONTAINER_ID } from './Afterpay.config';
+import { IDEAL_CONTAINER_ID } from './Ideal.config';
 
-import './Afterpay.style';
+import './Ideal.style';
 import {Address, PaymentTotals} from "../../../../@scandipwa/stripe-payments/src/type/Stripe";
 
-/** @namespace MultiSafepay/Afterpay/Component */
-export class Afterpay extends PureComponent {
+/** @namespace MultiSafepay/Ideal/Component */
+export class Ideal extends PureComponent {
     static propTypes = {
         billingAddress: Address.isRequired,
         paymentTotals: PaymentTotals.isRequired
@@ -25,16 +24,16 @@ export class Afterpay extends PureComponent {
         const { isLoading } = this.state;
 
         return (
-            <div block="Afterpay">
+            <div block="Ideal">
                 <Loader isLoading={ isLoading } />
                 <div
-                  block="Afterpay"
+                  block="Ideal"
                   elem="Form"
-                  id={ AFTERPAY_CONTAINER_ID }
+                  id={ IDEAL_CONTAINER_ID }
                 />
             </div>
         );
     }
 }
 
-export default Afterpay;
+export default Ideal;
