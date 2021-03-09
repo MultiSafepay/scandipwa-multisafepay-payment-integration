@@ -1,3 +1,2 @@
 
-export const AFTERPAY_CONTAINER_ID = 'AFTERPAY_CONTAINER_ID';
-export const AFTERPAY_METHOD_CODE = 'multisafepay_afterpay';
+export const AFTERPAY_CONTAINER_ID = 'AFTERPAY_IN3_CONTAINER_ID';

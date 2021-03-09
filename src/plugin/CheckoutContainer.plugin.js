@@ -19,6 +19,8 @@ export class CheckoutContainerPlugin {
         const guest_cart_id = !isSignedIn() ? getGuestQuoteId() : '';
 
         try {
+            console.log(additional_data);
+
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
                 guest_cart_id,
                 payment_method: {

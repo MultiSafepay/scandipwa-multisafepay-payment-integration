@@ -4,54 +4,25 @@ import {
     KLARNA
 } from 'Component/CheckoutPayments/CheckoutPayments.config';
 
-import { MULTISAFEPAY_IDEAL_CODE } from './CheckoutPayments.plugin';
+import { isMultisafepayPayment } from '../util/Payment';
+import { MULTISAFEPAY_IDEAL_CODE, MULTISAFEPAY_AFTERPAY_CODE, MULTISAFEPAY_IN3_CODE } from './CheckoutPayments.plugin';
 
 export class CheckoutBillingContainerPlugin {
     getPaymentDataPlugin = (args, callback = () => {}, instance) => {
         const { asyncData } = args;
         const { paymentMethod: code } = instance.state;
-        console.log(code);
         callback.apply(instance, args);
-
-        console.log(asyncData, code);
 
         switch (code) {
             case MULTISAFEPAY_IDEAL_CODE:
-                const [{
-                    cc_type,
-                    encryptedCardNumber: number,
-                    encryptedExpiryMonth: expiryMonth,
-                    encryptedExpiryYear: expiryYear,
-                    encryptedSecurityCode: cvc,
-                    holderName,
-                    storeCc: store_cc,
-                    javaEnabled: java_enabled,
-                    colorDepth: screen_color_depth,
-                    screenWidth: screen_width,
-                    screenHeight: screen_height,
-                    timeZoneOffset: timezone_offset,
-                    language
-                }] = asyncData || args[0];
+            case MULTISAFEPAY_AFTERPAY_CODE:
+            case MULTISAFEPAY_IN3_CODE:
+                const { additional_data } = instance.state;
 
                 return {
                     code,
-                    additional_data: {
-                        cc_type,
-                        number,
-                        expiryMonth,
-                        expiryYear,
-                        cvc,
-                        holderName,
-                        store_cc,
-                        java_enabled,
-                        screen_color_depth,
-                        screen_width,
-                        screen_height,
-                        timezone_offset,
-                        language
-                    }
+                    additional_data: additional_data || ''
                 };
-
             case BRAINTREE:
                 const [{ nonce }] = asyncData || args[0];
 
@@ -77,16 +48,33 @@ export class CheckoutBillingContainerPlugin {
                 return { code };
         }
     };
+
+    /**
+     *
+     * @param args
+     * @param callback
+     * @param instance
+     */
+    aroundOnPaymentMethodSelect = (args, callback = () => {}, instance) => {
+        console.log(args);
+        if (args[1] && args[0] && isMultisafepayPayment(args[0])) {
+            instance.setState({ paymentMethod: args[0], additional_data: args[1] || []});
+        } else {
+            callback.apply(instance, args);
+        }
+    };
 }
 
 const {
-    getPaymentDataPlugin
+    getPaymentDataPlugin,
+    aroundOnPaymentMethodSelect
 } = new CheckoutBillingContainerPlugin();
 
 export const config = {
     'Component/CheckoutBilling/Container': {
         'member-function': {
-            _getPaymentData: getPaymentDataPlugin
+            _getPaymentData: getPaymentDataPlugin,
+            onPaymentMethodSelect: aroundOnPaymentMethodSelect
         }
     }
 };

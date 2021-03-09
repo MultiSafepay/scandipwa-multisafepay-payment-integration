@@ -1,8 +1,6 @@
 
-import MultisafepayBasePayment from '../component/BasePayment';
 import AfterpayIn3 from '../component/AfterpayIn3';
 import Ideal from '../component/Ideal';
-import {ADYEN_CC} from "../../../@scandipwa/adyen-graphql/src/plugin/CheckoutPayments.plugin";
 import { isMultisafepayPayment, isMultisafepayRecurringPayment } from '../util/Payment';
 
 import CheckoutPayment from 'Component/CheckoutPayment';
@@ -31,17 +29,21 @@ export class CheckoutPaymentsPlugin {
      *
      * @returns {JSX.Element}
      */
-    renderIdealPayment() {
+    renderIdealPayment(props) {
         const {
-            billingAddress,
-            totals
-        } = this.props;
-        // const totals = Object.keys(paymentTotals).length ? paymentTotals : cartTotals;
+            selectedPaymentCode,
+            paymentMethods,
+            onPaymentMethodSelect,
+            selectPaymentMethod
+        } = props;
+        const paymentData =  paymentMethods.find(o => o.code === selectedPaymentCode);
 
         return (
             <Ideal
-                billingAddress={ billingAddress }
-                paymentTotals={ totals }
+                paymentMethods = { paymentMethods }
+                paymentData = { paymentData }
+                onPaymentMethodSelect = { onPaymentMethodSelect }
+                selectPaymentMethod = { selectPaymentMethod }
             />
         );
     }
@@ -50,17 +52,20 @@ export class CheckoutPaymentsPlugin {
      *
      * @returns {JSX.Element}
      */
-    renderAfterpayIn3Payment() {
+    renderAfterpayIn3Payment(props) {
         const {
-            billingAddress,
-            totals
-        } = this.props;
-        // const totals = Object.keys(paymentTotals).length ? paymentTotals : cartTotals;
+            selectedPaymentCode,
+            paymentMethods,
+            onPaymentMethodSelect,
+            selectPaymentMethod
+        } = props;
 
         return (
             <AfterpayIn3
-              billingAddress={ billingAddress }
-              paymentTotals={ totals }
+                paymentMethods = { paymentMethods }
+                onPaymentMethodSelect = { onPaymentMethodSelect }
+                selectPaymentMethod = { selectPaymentMethod }
+                selectedPaymentCode = { selectedPaymentCode }
             />
         );
     }
@@ -79,35 +84,33 @@ export class CheckoutPaymentsPlugin {
 
     // eslint-disable-next-line no-unused-vars
     aroundRenderPayment = (args, callback = () => {}, instance) => {
-        const { selectPaymentMethod, selectedPaymentCode } = instance.props;
         const method = args[0];
-        const { code } = method;
-        const isSelected = selectedPaymentCode === code;
+        const { code, title } = method;
 
         if (isMultisafepayRecurringPayment(code)) {
             return;
         }
 
         if (isMultisafepayPayment(code)) {
+            const { multisafepay_additional_data} = method;
+            const {image: src } = multisafepay_additional_data;
 
             return (
-                <MultisafepayBasePayment
-                    key={ code }
-                    isSelected={ isSelected }
-                    method={ method }
-                    onClick={ selectPaymentMethod }
-                />
+                <>
+                    <div id={ code } className={ 'multisafepay-payment' }>
+                        <img
+                            style={ { width: '5%', float: 'left', paddingTop: '15px', position: 'absolute' } }
+                            alt={ title }
+                            src={ src }
+                            itemProp="image"
+                        />
+                        { callback.apply(instance, args) }
+                    </div>
+                </>
             );
         }
 
-        return (
-            <CheckoutPayment
-                key={ code }
-                isSelected={ isSelected }
-                method={ method }
-                onClick={ selectPaymentMethod }
-            />
-        );
+        return callback.apply(instance, args);
     };
 }
 
