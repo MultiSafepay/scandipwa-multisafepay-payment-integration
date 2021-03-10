@@ -1,25 +1,34 @@
+/**
+ * Copyright © 2021 MultiSafepay, Inc. All rights reserved.
+ * See DISCLAIMER.md for disclaimer details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package multisafepay-integration
+ * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
+ *
+ */
 
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
 import Loader from 'Component/Loader';
 import { AFTERPAY_CONTAINER_ID } from './AfterpayIn3.config';
 import './AfterpayIn3.style';
+import { renderInputWithLabel, renderLabel } from '../../util/Form';
 
 /** @namespace MultiSafepay/AfterpayIn3/Component */
 export class AfterpayIn3 extends PureComponent {
     static propTypes = {
         selectedPaymentCode: PropTypes.any.isRequired,
         paymentMethods: PropTypes.any.isRequired,
-        onPaymentMethodSelect: PropTypes.func.isRequired,
-        selectPaymentMethod: PropTypes.func.isRequired
+        onPaymentMethodSelect: PropTypes.func.isRequired
     };
 
     componentDidMount() {
         const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
-        this.state = {
+        this.setState({
             date_of_birth: '',
-            gender: '',
-        }
+            gender: ''
+        });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -27,27 +36,6 @@ export class AfterpayIn3 extends PureComponent {
                 date_of_birth: '',
                 gender: '',
             });
-    }
-
-    /**
-     *
-     * @returns {JSX.Element}
-     */
-    renderDateOfBirth() {
-        return (
-            <div>
-                <input
-                    block="AfterpayIn3Select"
-                    type="text"
-                    id="afterpayin3-date-of-birth"
-                    name="afterpayin3-date-of-birth"
-                    title={ __('Date of Birth') }
-                    placeholder={ __('dd-mm-yyyy') }
-                    required={ true }
-                    onChange={ this.updateDateOfBirth }
-                />
-            </div>
-        );
     }
 
     /**
@@ -70,11 +58,18 @@ export class AfterpayIn3 extends PureComponent {
             }
         ];
 
+        const id = "afterpayin3-genders",
+            label = __('Gender'),
+            block = "AfterpayIn3Select";
+
         return (
-            <div>
+            <div block={ block }>
+                { renderLabel(block, true, id, label) }
+
                 <select
-                    block="AfterpayIn3Select"
+                    block={ block }
                     elem="Select"
+                    id={ id }
                     name="gender"
                     onChange={ this.updateGender }
                 >
@@ -91,7 +86,7 @@ export class AfterpayIn3 extends PureComponent {
      */
     renderPlaceholder() {
         return (
-            <option value="" label={ __('Choose your gender...') } />
+            <option value="xxx" label={ __('Choose your gender...') } />
         );
     }
 
@@ -149,10 +144,21 @@ export class AfterpayIn3 extends PureComponent {
     };
 
     render() {
+        const inputId = "AfterpayIn3Input";
+
         return (
             <div block="AfterpayIn3">
                 <div block="AfterpayIn3" elem="Form" id={ AFTERPAY_CONTAINER_ID }>
-                    { this.renderDateOfBirth() }
+                    { renderInputWithLabel(
+                        inputId,
+                        "afterpayin3-date-of-birth",
+                        __('Date of Birth'),
+                        this.updateDateOfBirth,
+                        true,
+                        "text",
+                        __('dd-mm-yyyy')
+                    ) }
+
                     { this.renderGenders() }
                 </div>
             </div>

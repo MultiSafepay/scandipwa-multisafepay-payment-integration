@@ -7,5 +7,21 @@
  * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
  *
  */
-export const IDEAL_CONTAINER_ID = 'IDEAL_CONTAINER_ID';
-export const IDEAL_METHOD_CODE = 'multisafepay_ideal';
+.DirectDebit {
+    margin-top: 2.4rem;
+
+    @include mobile {
+        margin-top: 2.8rem;
+    }
+
+    &-Form {
+        min-height: 200px;
+        border-radius: 5px;
+        border: 1px solid;
+        padding: 20px;
+    }
+
+    &Input {
+        margin-bottom: 15px;
+    }
+}

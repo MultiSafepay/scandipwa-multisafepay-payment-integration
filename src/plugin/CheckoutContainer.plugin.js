@@ -1,4 +1,12 @@
-
+/**
+ * Copyright © 2021 MultiSafepay, Inc. All rights reserved.
+ * See DISCLAIMER.md for disclaimer details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package multisafepay-integration
+ * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
+ *
+ */
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MultisafepayQuery from '../query/Multisafepay.query';
@@ -6,7 +14,7 @@ import {BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS} from 'Route/Checkout/Checkou
 import { getGuestQuoteId } from 'Util/Cart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { fetchMutation, fetchQuery } from 'Util/Request';
+import { fetchMutation } from 'Util/Request';
 import { isMultisafepayPayment } from '../util/Payment';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
@@ -19,8 +27,6 @@ export class CheckoutContainerPlugin {
         const guest_cart_id = !isSignedIn() ? getGuestQuoteId() : '';
 
         try {
-            console.log(additional_data);
-
             await fetchMutation(CheckoutQuery.getSetPaymentMethodOnCartMutation({
                 guest_cart_id,
                 payment_method: {

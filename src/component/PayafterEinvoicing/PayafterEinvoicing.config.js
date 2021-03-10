@@ -7,5 +7,4 @@
  * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
  *
  */
-export const IDEAL_CONTAINER_ID = 'IDEAL_CONTAINER_ID';
-export const IDEAL_METHOD_CODE = 'multisafepay_ideal';
+export const PAYAFTER_EINVOICING_CONTAINER_ID = 'PAYAFTER_EINVOICING_CONTAINER_ID';
