@@ -1,8 +1,8 @@
 {
-    "name": "multisafepay-integration",
+    "name": "scandipwa-multisafepay-payment-integration",
     "version": "1.0.0",
     "license": "OSL-3.0",
-    "description": "MultiSafepay payments support for SWPWA",
+    "description": "MultiSafepay payments support for ScandiPWA theme",
     "scandipwa": {
         "type": "extension"
     },
