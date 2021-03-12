@@ -29,7 +29,9 @@ Stores → Configuration → MultiSafepay → General Settings → Advanced Sett
 - For redirect URL after canceling the payment we suggest using the next link: *{{store.secure_base_url}}cart*  
 - For redirect URL to "Success page" we suggest using the next link: *{{store.secure_base_url}}checkout/success?incrementId={{order.increment_id}}&paymentCode={{payment.code}}*
 4. Install frontend plugin from this repository into your ScandiPWA theme according to this <a href="https://docs.scandipwa.com/building-your-app/extensions/installing-an-extension" target="_blank">installation guide</a>.
-5. Explore the checkout in ScandiPWA application:
+5. Explore the checkout in ScandiPWA application:  
+<img width="1000" alt="Screenshot 2021-03-12 at 12 56 42" src="https://user-images.githubusercontent.com/78361324/110949265-b0124680-8342-11eb-8d99-55c926e76f3d.png">
+
 
 ## Support
 You can create issues on our repository. If you need any additional help or support, please contact <a href="mailto:integration@multisafepay.com">integration@multisafepay.com</a>
