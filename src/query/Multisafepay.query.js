@@ -25,6 +25,19 @@ export class MultisafepayQuery {
 
     /**
      *
+     * @returns {*}
+     */
+    getMultisafepayApiToken() {
+        return  new Field('getMultisafepayApiToken')
+            .addFieldList(
+                [
+                    'multisafepay_api_token'
+                ]
+            );
+    }
+
+    /**
+     *
      * @param guestCartId
      * @returns {Field}
      */
