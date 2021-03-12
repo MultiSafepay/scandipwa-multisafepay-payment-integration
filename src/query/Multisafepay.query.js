@@ -53,6 +53,11 @@ export class MultisafepayQuery {
         return mutation;
     }
 
+    /**
+     *
+     * @returns {MultisafepayQuery[]}
+     * @private
+     */
     _getSaveAddressInformationFields() {
         return [
             this._getPaymentMethodsField(),
@@ -60,11 +65,21 @@ export class MultisafepayQuery {
         ];
     }
 
+    /**
+     *
+     * @returns {Field}
+     * @private
+     */
     _getPaymentMethodsField() {
         return new Field('payment_methods')
             .addFieldList(this._getPaymentMethodFields());
     }
 
+    /**
+     *
+     * @returns {(string|Field)[]}
+     * @private
+     */
     _getPaymentMethodFields() {
         return [
             'code',
@@ -74,11 +89,21 @@ export class MultisafepayQuery {
         ];
     }
 
+    /**
+     *
+     * @returns {Field}
+     * @private
+     */
     _getTotalsField() {
         return new Field('totals')
             .addFieldList(this._getTotalsFields());
     }
 
+    /**
+     *
+     * @returns {(string|MultisafepayQuery)[]}
+     * @private
+     */
     _getTotalsFields() {
         return [
             'subtotal',
@@ -97,11 +122,21 @@ export class MultisafepayQuery {
         ];
     }
 
+    /**
+     *
+     * @returns {Field}
+     * @private
+     */
     _getTotalItemField() {
         return new Field('items')
             .addFieldList(this._getTotalItemFields());
     }
 
+    /**
+     *
+     * @returns {string[]}
+     * @private
+     */
     _getTotalItemFields() {
         return [
             'qty',
@@ -143,6 +178,12 @@ export class MultisafepayQuery {
             ]);
     }
 
+    /**
+     *
+     * @param guestCartId
+     * @param mutation
+     * @private
+     */
     _addGuestCartId(guestCartId, mutation) {
         if (guestCartId && !isSignedIn()) {
             mutation.addArgument('guestCartId', 'String!', guestCartId);
