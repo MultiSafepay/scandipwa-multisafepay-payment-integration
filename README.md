@@ -2,7 +2,7 @@
   <img src="https://www.multisafepay.com/img/multisafepaylogo.svg" width="400px" position="center">
 </p>
 
-# MultiSafepay payments support module for ScandiPWA theme
+# MultiSafepay payments support extension for ScandiPWA theme
 
 MultiSafepay Payments frontend integration for ScandiPWA 4.x theme with Magento 2 plugin as backend system.
 
@@ -14,38 +14,28 @@ The supported Payment Methods & Giftcards for this plugin can be found over here
 
 ## Requirements
 - To use the plugin you need a MultiSafepay account. You can create a test account on https://testmerchant.multisafepay.com/signup
-- Installed [MultiSafepay Magento 2 GraphQL](https://github.com/MultiSafepay/magento2-graphql) plugin for support GraphQL queries.
-- Meet other requirements for ScaniPWA theme and Magento on [ScandiPWA docs](https://docs.scandipwa.com/getting-started-1/getting-started/magento-integration#prerequisites)
+- Installed <a href="https://github.com/MultiSafepay/magento2-graphql" target="_blank">MultiSafepay Magento 2 GraphQL</a> plugin for support GraphQL queries.
+- Meet other requirements for ScaniPWA theme and Magento on <a href="https://docs.scandipwa.com/getting-started-1/getting-started/magento-integration#prerequisites" target="_blank">official ScandiPWA docs</a>
 
-## Installation
+## Installation Guide
 
-This module can be installed via composer:
-
-```shell
-composer require multisafepay/magento2-core
+1. For first need to be installed MultiSafepay plugin for support GraphQL queries. Installation guide can be found <a href="https://github.com/MultiSafepay/magento2-graphql" target="_blank">here</a>.    
+   **Note:** with MultiSafepay GraphQL plugin will also be installed MultiSafepay Core, Frontend and Adminhtml plugins.
+2. Configure the MultiSafepay payment methods and API keys in Magento admin panel. 
+3. Configure cancel and success return redirect URL's
+```text
+Stores → Configuration → MultiSafepay → General Settings → Advanced Settings → Use custom return urls for PWA storefront integration
 ```
-
-Next, enable the module:
-```bash
-bin/magento module:enable MultiSafepay_ConnectCore
-```
-
-Next, run the following commands:
-```shell
-php bin/magento setup:upgrade
-php bin/magento setup:di:compile
-php bin/magento setup:static-content:deploy
-```
-
-**Please keep in mind that after installing this module, you will only have the MultiSafepay core functionalities which do not include the Magento backend, frontend and proper stock handling.**
-
-For a quick installation of all the modules, we recommend using [the meta package](https://github.com/MultiSafepay/magento2) instead.
+- For redirect URL after canceling the payment we suggest using the next link: *{{store.secure_base_url}}cart*  
+- For redirect URL to "Success page" we suggest using the next link: *{{store.secure_base_url}}checkout/success?incrementId={{order.increment_id}}&paymentCode={{payment.code}}*
+4. Install frontend plugin from this repository into your ScandiPWA theme according to this <a href="https://docs.scandipwa.com/building-your-app/extensions/installing-an-extension" target="_blank">installation guide</a>.
+5. Explore the checkout in ScandiPWA application:
 
 ## Support
 You can create issues on our repository. If you need any additional help or support, please contact <a href="mailto:integration@multisafepay.com">integration@multisafepay.com</a>
 
 We are also available on our Magento Slack channel [#multisafepay-payments](https://magentocommeng.slack.com/messages/multisafepay-payments/).
-Feel free to start a conversation or provide suggestions as to how we can refine our Magento 2 plugin.
+Feel free to start a conversation or provide suggestions as to how we can refine our plugin.
 
 ## A gift for your contribution
 We look forward to receiving your input. Have you seen an opportunity to change things for better? We would like to invite you to create a pull request on GitHub.
