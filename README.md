@@ -2,6 +2,12 @@
   <img src="https://www.multisafepay.com/img/multisafepaylogo.svg" width="400px" position="center">
 </p>
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/29531824/104035590-fc25fb00-51da-11eb-9171-d5f2e9211753.png" width="350px" position="center">
+</p>
+
+
+
 # MultiSafepay payments support extension for ScandiPWA theme
 
 MultiSafepay Payments frontend integration for ScandiPWA 4.x theme with Magento 2 plugin as backend system.
