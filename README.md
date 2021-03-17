@@ -21,7 +21,7 @@ The supported Payment Methods & Giftcards for this plugin can be found over here
 ## Requirements
 - To use the plugin you need a MultiSafepay account. You can create a test account on https://testmerchant.multisafepay.com/signup
 - Installed <a href="https://github.com/MultiSafepay/magento2-graphql" target="_blank">MultiSafepay Magento 2 GraphQL</a> plugin for support GraphQL queries.
-- Meet other requirements for ScaniPWA theme and Magento on <a href="https://docs.scandipwa.com/getting-started-1/getting-started/magento-integration#prerequisites" target="_blank">official ScandiPWA docs</a>
+- Meet other requirements for ScaniPWA theme and Magento on <a href="https://docs.scandipwa.com/getting-started/getting-started/magento-integration#prerequisites" target="_blank">official ScandiPWA docs</a>
 
 ## Installation Guide
 
@@ -34,7 +34,7 @@ Stores → Configuration → MultiSafepay → General Settings → Advanced Sett
 ```
 - For redirect URL after canceling the payment we suggest using the next link: *{{store.secure_base_url}}cart*  
 - For redirect URL to "Success page" we suggest using the next link: *{{store.secure_base_url}}checkout/success?incrementId={{order.increment_id}}&paymentCode={{payment.code}}*
-4. Install frontend plugin from this repository into your ScandiPWA theme according to this <a href="https://docs.scandipwa.com/building-your-app/extensions/installing-an-extension" target="_blank">installation guide</a>.
+4. Install frontend plugin from this repository into your ScandiPWA theme according to this <a href="https://docs.scandipwa.com/stack/extensions/installing-an-extension" target="_blank">installation guide</a>.
 5. Explore the checkout in ScandiPWA application:  
 <img width="1000" alt="Screenshot 2021-03-12 at 12 56 42" src="https://user-images.githubusercontent.com/78361324/110949265-b0124680-8342-11eb-8d99-55c926e76f3d.png">
 
