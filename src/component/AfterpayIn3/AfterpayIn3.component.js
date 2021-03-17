@@ -46,15 +46,15 @@ export class AfterpayIn3 extends PureComponent {
         const genders =[
             {
                 "code": "mr",
-                "label": 'Mr.'
+                "label": __('Mr.')
             },
             {
                 "code": "mrs",
-                "label": 'Mrs.'
+                "label": __('Mrs.')
             },
             {
                 "code": "miss",
-                "label": 'Miss'
+                "label": __('Miss')
             }
         ];
 

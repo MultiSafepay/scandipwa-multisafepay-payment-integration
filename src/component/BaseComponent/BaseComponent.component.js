@@ -31,14 +31,8 @@ export class BaseComponent extends CheckoutPayment {
 
         return (
 
-            <li block="CheckoutPayment">
-                <img
-                    block="MultiSafepayLogo"
-                    elem="Image"
-                    alt={ title }
-                    src={ srcImage }
-                    itemProp="image"
-                />
+            <li block="CheckoutPayment MultiSafepay-payment">
+
                 <button
                   block="CheckoutPayment"
                   mods={ { isSelected } }
@@ -46,6 +40,13 @@ export class BaseComponent extends CheckoutPayment {
                   onClick={ this.onClick }
                   type="button"
                 >
+                    <img
+                        block="MultiSafepayLogo"
+                        elem="Image"
+                        alt={ title }
+                        src={ srcImage }
+                        itemProp="image"
+                    />
                     { title }
                 </button>
             </li>

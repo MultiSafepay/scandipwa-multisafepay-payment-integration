@@ -21,21 +21,21 @@ The supported Payment Methods & Giftcards for this plugin can be found over here
 ## Requirements
 - To use the plugin you need a MultiSafepay account. You can create a test account on https://testmerchant.multisafepay.com/signup
 - Installed <a href="https://github.com/MultiSafepay/magento2-graphql" target="_blank">MultiSafepay Magento 2 GraphQL</a> plugin for support GraphQL queries.
-- Meet other requirements for ScaniPWA theme and Magento on <a href="https://docs.scandipwa.com/getting-started/getting-started/magento-integration#prerequisites" target="_blank">official ScandiPWA docs</a>
+- Meet other requirements for the ScandiPWA and Magento on <a href="https://docs.scandipwa.com/getting-started/getting-started/magento-integration#prerequisites" target="_blank">official ScandiPWA docs</a>
 
 ## Installation Guide
 
-1. For first need to be installed MultiSafepay plugin for support GraphQL queries. Installation guide can be found <a href="https://github.com/MultiSafepay/magento2-graphql" target="_blank">here</a>.    
-   **Note:** with MultiSafepay GraphQL plugin will also be installed MultiSafepay Core, Frontend and Adminhtml plugins.
-2. Configure the MultiSafepay payment methods and API keys in Magento admin panel. 
+1. First, the MultiSafepay plugin for supporting GraphQL queries needs to be installed. The installation guide can be found <a href="https://github.com/MultiSafepay/magento2-graphql" target="_blank">here</a>.    
+   **Note:** By installing the MultiSafepay GraphQL plugin, the MultiSafepay Core, Frontend and Adminhtml plugins will also be installed.
+2. Configure the MultiSafepay payment methods and API keys in the Magento admin panel.  
 3. Configure cancel and success return redirect URL's
 ```text
 Stores → Configuration → MultiSafepay → General Settings → Advanced Settings → Use custom return urls for PWA storefront integration
 ```
-- For redirect URL after canceling the payment we suggest using the next link: *{{store.secure_base_url}}cart*  
-- For redirect URL to "Success page" we suggest using the next link: *{{store.secure_base_url}}checkout/success?incrementId={{order.increment_id}}&paymentCode={{payment.code}}*
-4. Install frontend plugin from this repository into your ScandiPWA theme according to this <a href="https://docs.scandipwa.com/stack/extensions/installing-an-extension" target="_blank">installation guide</a>.
-5. Explore the checkout in ScandiPWA application:  
+- For the 'custom redirect URL after canceling the payment' we suggest using the next link: *{{store.secure_base_url}}cart*  
+- For the 'Custom "Success page" url' we suggest using the next link: *{{store.secure_base_url}}checkout/success?incrementId={{order.increment_id}}&paymentCode={{payment.code}}*
+4. Install the ScandiPWA frontend plugin from this repository into your ScandiPWA theme according to this <a href="https://docs.scandipwa.com/stack/extensions/installing-an-extension" target="_blank">installation guide</a>.
+5. Explore the checkout in your ScandiPWA application:  
 <img width="1000" alt="Screenshot 2021-03-12 at 12 56 42" src="https://user-images.githubusercontent.com/78361324/110949265-b0124680-8342-11eb-8d99-55c926e76f3d.png">
 
 
