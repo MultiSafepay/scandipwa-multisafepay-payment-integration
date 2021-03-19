@@ -21,7 +21,7 @@ The supported Payment Methods & Giftcards for this plugin can be found over here
 ## Requirements
 - To use the plugin you need a MultiSafepay account. You can create a test account on https://testmerchant.multisafepay.com/signup
 - Installed <a href="https://github.com/MultiSafepay/magento2-graphql" target="_blank">MultiSafepay Magento 2 GraphQL</a> plugin for support GraphQL queries.
-- Meet other requirements for the ScandiPWA and Magento on <a href="https://docs.scandipwa.com/getting-started/getting-started/magento-integration#prerequisites" target="_blank">official ScandiPWA docs</a>
+- Meet other requirements for ScandiPWA and Magento on <a href="https://docs.scandipwa.com/getting-started/getting-started/magento-integration#prerequisites" target="_blank">official ScandiPWA docs</a>
 
 ## Installation Guide
 
