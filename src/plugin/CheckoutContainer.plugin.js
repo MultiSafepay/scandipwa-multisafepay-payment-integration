@@ -11,7 +11,7 @@ import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
 import MultisafepayQuery from '../query/Multisafepay.query';
 import {BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS} from 'Route/Checkout/Checkout.config';
-import { getGuestQuoteId } from 'Util/Cart';
+import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
 import { fetchMutation } from 'Util/Request';
@@ -128,7 +128,7 @@ export class CheckoutContainerPlugin {
 
             if (multisafepay_redirect_url !== "") {
                 if (!isSignedIn()) {
-                    BrowserDatabase.deleteItem(getGuestQuoteId());
+                    deleteGuestQuoteId();
                 }
 
                 BrowserDatabase.deleteItem(PAYMENT_TOTALS);
@@ -144,8 +144,10 @@ export class CheckoutContainerPlugin {
             }
         }
 
+        console.log(getGuestQuoteId());
+
         if (!isSignedIn()) {
-            BrowserDatabase.deleteItem(getGuestQuoteId());
+            deleteGuestQuoteId();
         }
 
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
