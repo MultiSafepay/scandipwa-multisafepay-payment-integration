@@ -127,15 +127,9 @@ export class CheckoutContainerPlugin {
             }
 
             if (multisafepay_redirect_url !== "") {
-                if (!isSignedIn()) {
-                    deleteGuestQuoteId();
-                }
-
                 BrowserDatabase.deleteItem(PAYMENT_TOTALS);
                 if (isSignedIn()) {
                     resetCart();
-                } else {
-                    resetGuestCart();
                 }
 
                 instance.setState({isLoading: false, paymentTotals: {}});
@@ -143,8 +137,6 @@ export class CheckoutContainerPlugin {
                 return window.location = multisafepay_redirect_url;
             }
         }
-
-        console.log(getGuestQuoteId());
 
         if (!isSignedIn()) {
             deleteGuestQuoteId();
