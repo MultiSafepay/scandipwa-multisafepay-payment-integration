@@ -129,17 +129,11 @@ export class CheckoutPaymentsPlugin {
 
         if (isMultisafepayPayment(code)) {
             const { multisafepay_additional_data: {
-                image: src,
-                is_preselected: isPreselected
+                image: src
             } } = method;
+
             const { selectPaymentMethod, selectedPaymentCode } = instance.props;
             const isSelected = selectedPaymentCode === code;
-
-            if (isPreselected) {
-                const isSelected = true;
-            } else {
-                const isSelected = selectedPaymentCode === code;
-            }
 
             return (
                 <BaseComponent
@@ -164,14 +158,18 @@ export class CheckoutPaymentsPlugin {
      */
     aroundComponentDidMount = (args, callback = () => {}, instance) => {
         const { paymentMethods, selectPaymentMethod } = instance.props;
+        let { selectedPaymentCode } = instance.props;
         const result = callback.apply(instance, args);
 
-        paymentMethods.map((method, i) => {
+        paymentMethods.map((method) => {
             const { code, multisafepay_additional_data} = method;
             const {is_preselected: isPreselected } = multisafepay_additional_data;
 
             if (isMultisafepayPayment(code) && isPreselected) {
                 selectPaymentMethod(method);
+            } else if (isMultisafepayRecurringPayment(selectedPaymentCode)) {
+                selectPaymentMethod(method);
+                selectedPaymentCode = code;
             }
         });
 

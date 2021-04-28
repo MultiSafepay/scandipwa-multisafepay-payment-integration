@@ -11,12 +11,11 @@ import {getQueryParam} from 'Util/Url';
 import {isMultisafepayPayment} from '../util/Payment';
 
 export class CheckoutPlugin {
-    aroundShippingStep = (args, callback, instance) => {
+    aroundComponentDidMount = (args, callback, instance) => {
         const {pathname} = instance.props.location;
-        const originalElement = callback.apply(instance, args);
 
         if (pathname === '/checkout/success') {
-            const {setHeaderState, setNavigationState, goBack, setDetailsStep} = instance.props;
+            const {setDetailsStep} = instance.props;
             const location = instance.props.location,
                 paymentCode = getQueryParam('paymentCode', location),
                 orderId = getQueryParam('incrementId', location);
@@ -24,20 +23,20 @@ export class CheckoutPlugin {
             if (isMultisafepayPayment(paymentCode)) {
                 return setDetailsStep(orderId);
             }
-        } else {
-            return originalElement;
         }
+
+        return callback.apply(instance, args);
     };
 }
 
 const {
-    aroundShippingStep
+    aroundComponentDidMount
 } = new CheckoutPlugin();
 
 export const config = {
     'Route/Checkout/Component': {
         'member-function': {
-            renderShippingStep: aroundShippingStep
+            componentDidMount: aroundComponentDidMount
         }
     }
 };
