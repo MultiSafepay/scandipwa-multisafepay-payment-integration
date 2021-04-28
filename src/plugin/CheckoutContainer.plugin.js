@@ -9,17 +9,19 @@
  */
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
 import CheckoutQuery from 'Query/Checkout.query';
-import MultisafepayQuery from '../query/Multisafepay.query';
-import {BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS, SHIPPING_STEP} from 'Route/Checkout/Checkout.config';
-import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
+import {
+    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS
+} from 'Route/Checkout/Checkout.config';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
 import { fetchMutation } from 'Util/Request';
-import { isMultisafepayPayment } from '../util/Payment';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
-export class CheckoutContainerPlugin {
+import MultisafepayQuery from '../query/Multisafepay.query';
+import { isMultisafepayPayment } from '../util/Payment';
 
+export class CheckoutContainerPlugin {
     // eslint-disable-next-line no-unused-vars
     aroundSavePaymentMethodAndPlaceOrder = async (args, callback = () => {}, instance) => {
         const { paymentMethod: { code, additional_data } } = args[0];
@@ -40,7 +42,7 @@ export class CheckoutContainerPlugin {
                         multisafepay_payment_url: {
                             payment_url: multisafepay_redirect_url,
                             error: multisafepay_payment_errors
-                        },
+                        }
                     }
                 }
             } = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
@@ -48,7 +50,7 @@ export class CheckoutContainerPlugin {
             const additionalData = {
                 multisafepay_redirect_url,
                 multisafepay_payment_errors,
-                code,
+                code
             };
 
             instance.setDetailsStep(order_id, additionalData);
@@ -100,7 +102,6 @@ export class CheckoutContainerPlugin {
         );
     };
 
-
     /**
      *
      * @param args
@@ -114,21 +115,21 @@ export class CheckoutContainerPlugin {
         const { code, multisafepay_payment_errors, multisafepay_redirect_url } = args[1] || {};
 
         if (isMultisafepayPayment(code)) {
-            if (multisafepay_payment_errors !== "") {
+            if (multisafepay_payment_errors !== '') {
                 showErrorNotification(multisafepay_payment_errors);
                 instance.setState({ isLoading: false });
 
                 return;
             }
 
-            if (multisafepay_redirect_url !== "") {
+            if (multisafepay_redirect_url !== '') {
                 BrowserDatabase.deleteItem(PAYMENT_TOTALS);
 
                 if (isSignedIn()) {
                     resetCart();
                 }
 
-                instance.setState({isLoading: false, paymentTotals: {}});
+                instance.setState({ isLoading: false, paymentTotals: {} });
 
                 return window.location = multisafepay_redirect_url;
             }
