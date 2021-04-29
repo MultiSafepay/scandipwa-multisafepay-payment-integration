@@ -8,13 +8,14 @@
  *
  */
 import PropTypes from 'prop-types';
-import CheckoutPayment from 'Component/CheckoutPayment'
-import './BaseComponent.style';
 
+import CheckoutPayment from 'Component/CheckoutPayment';
 import { paymentMethodType } from 'Type/Checkout';
 
-/** @namespace Component/CheckoutPayment/Component */
-export class BaseComponent extends CheckoutPayment {
+import './BaseComponent.style';
+
+/** @namespace ScandipwaMultisafepayPaymentIntegration/Component/BaseComponent/Component/BaseComponentComponent */
+export class BaseComponentComponent extends CheckoutPayment {
     static propTypes = {
         method: paymentMethodType.isRequired,
         onClick: PropTypes.func.isRequired,
@@ -25,7 +26,7 @@ export class BaseComponent extends CheckoutPayment {
     render() {
         const {
             isSelected,
-            method: { title, code },
+            method: { title },
             srcImage
         } = this.props;
 
@@ -41,11 +42,11 @@ export class BaseComponent extends CheckoutPayment {
                   type="button"
                 >
                     <img
-                        block="MultiSafepayLogo"
-                        elem="Image"
-                        alt={ title }
-                        src={ srcImage }
-                        itemProp="image"
+                      block="MultiSafepayLogo"
+                      elem="Image"
+                      alt={ title }
+                      src={ srcImage }
+                      itemProp="image"
                     />
                     { title }
                 </button>
@@ -54,4 +55,4 @@ export class BaseComponent extends CheckoutPayment {
     }
 }
 
-export default BaseComponent;
+export default BaseComponentComponent;

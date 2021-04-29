@@ -7,23 +7,26 @@
  * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
  *
  */
+/* eslint-disable react/destructuring-assignment */
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import Loader from 'Component/Loader';
-import { DIRECT_DEBIT_CONTAINER_ID } from './DirectDebit.config';
-import './DirectDebit.style';
-import { renderInputWithLabel } from '../../util/Form';
 
-/** @namespace MultiSafepay/DirectDebitComponent/Component */
+import { renderInputWithLabel } from '../../util/Form';
+import { DIRECT_DEBIT_CONTAINER_ID } from './DirectDebit.config';
+
+import './DirectDebit.style';
+
+/** @namespace ScandipwaMultisafepayPaymentIntegration/Component/DirectDebit/Component/DirectDebitComponent */
 export class DirectDebitComponent extends PureComponent {
     static propTypes = {
         selectedPaymentCode: PropTypes.string.isRequired,
-        paymentMethods: PropTypes.any.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired
     };
 
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
     componentDidMount() {
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
         this.setState({
             account_holder_name: '',
             account_holder_iban: '',
@@ -36,7 +39,8 @@ export class DirectDebitComponent extends PureComponent {
                 account_holder_name: '',
                 account_holder_iban: '',
                 emandate: ''
-            });
+            }
+        );
     }
 
     /**
@@ -44,9 +48,9 @@ export class DirectDebitComponent extends PureComponent {
      * @param e
      */
     updateAccountHolderName = (e) => {
-        const {value} = e.target;
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
-        this.setState({account_holder_name: value});
+        const { value } = e.target;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
+        this.setState({ account_holder_name: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -54,7 +58,8 @@ export class DirectDebitComponent extends PureComponent {
                 account_holder_name: value,
                 account_holder_iban: this.state.account_holder_iban,
                 emandate: this.state.emandate
-            });
+            }
+        );
     };
 
     /**
@@ -62,9 +67,9 @@ export class DirectDebitComponent extends PureComponent {
      * @param e
      */
     updateAccountHolderIban = (e) => {
-        const {value} = e.target;
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
-        this.setState({account_holder_iban: value});
+        const { value } = e.target;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
+        this.setState({ account_holder_iban: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -72,7 +77,8 @@ export class DirectDebitComponent extends PureComponent {
                 account_holder_name: this.state.account_holder_name,
                 account_holder_iban: value,
                 emandate: this.state.emandate
-            });
+            }
+        );
     };
 
     /**
@@ -80,9 +86,9 @@ export class DirectDebitComponent extends PureComponent {
      * @param e
      */
     updateEmandate = (e) => {
-        const {value} = e.target;
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
-        this.setState({emandate: value});
+        const { value } = e.target;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
+        this.setState({ emandate: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -90,36 +96,37 @@ export class DirectDebitComponent extends PureComponent {
                 account_holder_name: this.state.account_holder_name,
                 account_holder_iban: this.state.account_holder_iban,
                 emandate: value
-            });
+            }
+        );
     };
 
     render() {
-        const inputId = "DirectDebitInput";
+        const inputId = 'DirectDebitInput';
 
         return (
             <div block="DirectDebit">
                 <div block="DirectDebit" elem="Form" id={ DIRECT_DEBIT_CONTAINER_ID }>
                     { renderInputWithLabel(
                         inputId,
-                        "directdebit-account-name",
-                        __("Account holder name"),
+                        'directdebit-account-name',
+                        __('Account holder name'),
                         this.updateAccountHolderName
                     ) }
 
                     { renderInputWithLabel(
                         inputId,
-                        "directdebit-account-number",
-                        __("Bank account number"),
+                        'directdebit-account-number',
+                        __('Bank account number'),
                         this.updateAccountHolderIban,
                         true,
-                        "text",
-                        __("Bank account number e.g NL02ABNA0123456789")
+                        'text',
+                        __('Bank account number e.g NL02ABNA0123456789')
                     ) }
 
                     { renderInputWithLabel(
                         inputId,
-                        "directdebit-emandate",
-                        __("Emandate"),
+                        'directdebit-emandate',
+                        __('Emandate'),
                         this.updateEmandate
                     ) }
                 </div>

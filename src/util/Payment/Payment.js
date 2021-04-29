@@ -7,33 +7,15 @@
  * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
  *
  */
-/* eslint-disable fp/no-let */
 
 /**
  * @param {String} paymentCode
- * @namespace MultiSafepay/Util/Payment/isMultisafepayPayment
- */
-export const isMultisafepayPayment = (paymentCode) => {
-    if (paymentCode
-        && (paymentCode.includes('multisafepay_') || paymentCode === 'multisafepay')
-    ) {
-        return true;
-    }
-
-    return false;
-};
+ * @namespace ScandipwaMultisafepayPaymentIntegration/Util/Payment/isMultisafepayPayment */
+export const isMultisafepayPayment = (paymentCode) => paymentCode && (paymentCode.includes('multisafepay_')
+    || paymentCode === 'multisafepay');
 
 /**
  * @param {String} paymentCode
- * @namespace MultiSafepay/Util/Payment/isMultisafepayRecurringPayment
- */
-export const isMultisafepayRecurringPayment = (paymentCode) => {
-    if (paymentCode
-        && paymentCode.includes('multisafepay_')
-        && (paymentCode.includes('_recurring') || paymentCode.includes('_vault'))
-    ) {
-        return true;
-    }
-
-    return false;
-};
+ * @namespace ScandipwaMultisafepayPaymentIntegration/Util/Payment/isMultisafepayRecurringPayment */
+export const isMultisafepayRecurringPayment = (paymentCode) => paymentCode && paymentCode.includes('multisafepay_')
+        && (paymentCode.includes('_recurring') || paymentCode.includes('_vault'));

@@ -8,18 +8,22 @@
  *
  */
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import CartQuery from 'Query/Cart.query';
 import CheckoutQuery from 'Query/Checkout.query';
 import {
     BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS
 } from 'Route/Checkout/Checkout.config';
+import { CART_TOTALS } from 'Store/Cart/Cart.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
-import { deleteGuestQuoteId, getGuestQuoteId } from 'Util/Cart';
+import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { fetchMutation } from 'Util/Request';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
 import MultisafepayQuery from '../query/Multisafepay.query';
 import { isMultisafepayPayment } from '../util/Payment';
+import { MULTISAFEPAY_GUEST_CHECKOUT } from './Checkout.plugin';
 
 export class CheckoutContainerPlugin {
     // eslint-disable-next-line no-unused-vars
@@ -102,13 +106,7 @@ export class CheckoutContainerPlugin {
         );
     };
 
-    /**
-     *
-     * @param args
-     * @param callback
-     * @param instance
-     * @returns {*}
-     */
+    // eslint-disable-next-line no-unused-vars
     aroundSetDetailsStep = (args, callback = () => {}, instance) => {
         const { resetCart, resetGuestCart, setNavigationState } = instance.props;
         const { showErrorNotification } = instance.props;
@@ -131,6 +129,7 @@ export class CheckoutContainerPlugin {
 
                 instance.setState({ isLoading: false, paymentTotals: {} });
 
+                // eslint-disable-next-line consistent-return,no-return-assign
                 return window.location = multisafepay_redirect_url;
             }
         }
@@ -144,6 +143,16 @@ export class CheckoutContainerPlugin {
         if (isSignedIn()) {
             resetCart();
         } else {
+            if (BrowserDatabase.getItem(MULTISAFEPAY_GUEST_CHECKOUT)) {
+                BrowserDatabase.deleteItem(CART_TOTALS);
+                fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
+                    ({ createEmptyCart }) => {
+                        setGuestQuoteId(createEmptyCart);
+                        resetGuestCart();
+                    }, (error) => showNotification('error', error[0].message)
+                );
+            }
+
             resetGuestCart();
         }
 

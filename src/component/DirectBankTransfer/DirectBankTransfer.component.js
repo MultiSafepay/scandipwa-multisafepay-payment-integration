@@ -7,23 +7,26 @@
  * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
  *
  */
+/* eslint-disable react/destructuring-assignment */
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import Loader from 'Component/Loader';
-import { DIRECT_BANK_TRANSFER_CONTAINER_ID } from './DirectBankTransfer.config';
-import './DirectBankTransfer.style';
-import { renderInputWithLabel } from '../../util/Form';
 
-/** @namespace MultiSafepay/DirectBankTransfer/Component */
-export class DirectBankTransfer extends PureComponent {
+import { renderInputWithLabel } from '../../util/Form';
+import { DIRECT_BANK_TRANSFER_CONTAINER_ID } from './DirectBankTransfer.config';
+
+import './DirectBankTransfer.style';
+
+/** @namespace ScandipwaMultisafepayPaymentIntegration/Component/DirectBankTransfer/Component/DirectBankTransferComponent */
+export class DirectBankTransferComponent extends PureComponent {
     static propTypes = {
-        selectedPaymentCode: PropTypes.any.isRequired,
-        paymentMethods: PropTypes.any.isRequired,
+        selectedPaymentCode: PropTypes.string.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired
     };
 
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
     componentDidMount() {
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
         this.setState({
             account_id: '',
             account_holder_name: '',
@@ -42,7 +45,8 @@ export class DirectBankTransfer extends PureComponent {
                 account_holder_country: '',
                 account_holder_iban: '',
                 account_holder_bic: ''
-            });
+            }
+        );
     }
 
     /**
@@ -50,9 +54,9 @@ export class DirectBankTransfer extends PureComponent {
      * @param e
      */
     updateAccountId = (e) => {
-        const {value} = e.target;
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
-        this.setState({account_id: value});
+        const { value } = e.target;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
+        this.setState({ account_id: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -63,7 +67,8 @@ export class DirectBankTransfer extends PureComponent {
                 account_holder_country: this.state.account_holder_country,
                 account_holder_iban: this.state.account_holder_iban,
                 account_holder_bic: this.state.account_holder_bic
-            });
+            }
+        );
     };
 
     /**
@@ -71,9 +76,9 @@ export class DirectBankTransfer extends PureComponent {
      * @param e
      */
     updateAccountHolderName = (e) => {
-        const {value} = e.target;
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
-        this.setState({account_holder_name: value});
+        const { value } = e.target;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
+        this.setState({ account_holder_name: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -84,7 +89,8 @@ export class DirectBankTransfer extends PureComponent {
                 account_holder_country: this.state.account_holder_country,
                 account_holder_iban: this.state.account_holder_iban,
                 account_holder_bic: this.state.account_holder_bic
-            });
+            }
+        );
     };
 
     /**
@@ -94,7 +100,7 @@ export class DirectBankTransfer extends PureComponent {
     updateAccountHolderCity = (e) => {
         const { value } = e.target;
         const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
-        this.setState({account_holder_city: value});
+        this.setState({ account_holder_city: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -105,7 +111,8 @@ export class DirectBankTransfer extends PureComponent {
                 account_holder_country: this.state.account_holder_country,
                 account_holder_iban: this.state.account_holder_iban,
                 account_holder_bic: this.state.account_holder_bic
-            });
+            }
+        );
     };
 
     /**
@@ -113,9 +120,9 @@ export class DirectBankTransfer extends PureComponent {
      * @param e
      */
     updateAccountHolderCountry = (e) => {
-        const {value} = e.target;
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
-        this.setState({account_holder_country: value});
+        const { value } = e.target;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
+        this.setState({ account_holder_country: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -126,7 +133,8 @@ export class DirectBankTransfer extends PureComponent {
                 account_holder_country: value,
                 account_holder_iban: this.state.account_holder_iban,
                 account_holder_bic: this.state.account_holder_bic
-            });
+            }
+        );
     };
 
     /**
@@ -134,9 +142,9 @@ export class DirectBankTransfer extends PureComponent {
      * @param e
      */
     updateAccountHolderIban = (e) => {
-        const {value} = e.target;
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
-        this.setState({account_holder_iban: value});
+        const { value } = e.target;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
+        this.setState({ account_holder_iban: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -147,7 +155,8 @@ export class DirectBankTransfer extends PureComponent {
                 account_holder_country: this.state.account_holder_country,
                 account_holder_iban: value,
                 account_holder_bic: this.state.account_holder_bic
-            });
+            }
+        );
     };
 
     /**
@@ -155,9 +164,9 @@ export class DirectBankTransfer extends PureComponent {
      * @param e
      */
     updateAccountHolderBic = (e) => {
-        const {value} = e.target;
-        const {onPaymentMethodSelect, selectedPaymentCode} = this.props;
-        this.setState({account_holder_bic: value});
+        const { value } = e.target;
+        const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
+        this.setState({ account_holder_bic: value });
 
         onPaymentMethodSelect(
             selectedPaymentCode,
@@ -168,56 +177,57 @@ export class DirectBankTransfer extends PureComponent {
                 account_holder_country: this.state.account_holder_country,
                 account_holder_iban: this.state.account_holder_iban,
                 account_holder_bic: value
-            });
+            }
+        );
     };
 
     render() {
-        const inputId = "DirectBankTransferInput";
+        const inputId = 'DirectBankTransferInput';
 
         return (
             <div block="DirectBankTransfer">
-                <div block="DirectBankTransfer" elem="Form" id={DIRECT_BANK_TRANSFER_CONTAINER_ID}>
+                <div block="DirectBankTransfer" elem="Form" id={ DIRECT_BANK_TRANSFER_CONTAINER_ID }>
                     { renderInputWithLabel(
                         inputId,
-                        "directbanktransfer-account-id",
+                        'directbanktransfer-account-id',
                         __('Account ID'),
                         this.updateAccountId
                     ) }
 
                     { renderInputWithLabel(
                         inputId,
-                        "directbanktransfer-account-name",
-                        __("Account holder name"),
+                        'directbanktransfer-account-name',
+                        __('Account holder name'),
                         this.updateAccountHolderName
                     ) }
 
                     { renderInputWithLabel(
                         inputId,
-                        "directbanktransfer-account-city",
-                        __("Account holder city"),
+                        'directbanktransfer-account-city',
+                        __('Account holder city'),
                         this.updateAccountHolderCity
                     ) }
 
                     { renderInputWithLabel(
                         inputId,
-                        "directbanktransfer-account-country",
-                        __("Account holder country"),
+                        'directbanktransfer-account-country',
+                        __('Account holder country'),
                         this.updateAccountHolderCountry
                     ) }
 
                     { renderInputWithLabel(
                         inputId,
-                        "directbanktransfer-account-number",
-                        __("Bank account number"),
+                        'directbanktransfer-account-number',
+                        __('Bank account number'),
                         this.updateAccountHolderIban,
                         true,
-                        "text",
-                        __("Bank account number e.g NL02ABNA0123456789")
+                        'text',
+                        __('Bank account number e.g NL02ABNA0123456789')
                     ) }
 
                     { renderInputWithLabel(
                         inputId,
-                        "directbanktransfer-account-bic",
+                        'directbanktransfer-account-bic',
                         __('Date of Birth'),
                         this.updateAccountHolderBic
                     ) }
@@ -227,4 +237,4 @@ export class DirectBankTransfer extends PureComponent {
     }
 }
 
-export default DirectBankTransfer;
+export default DirectBankTransferComponent;

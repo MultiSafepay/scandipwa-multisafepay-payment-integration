@@ -8,12 +8,12 @@
  *
  */
 import AfterpayIn3 from '../component/AfterpayIn3';
-import Ideal from '../component/Ideal';
-import PayafterEinvoicing from '../component/PayafterEinvoicing';
+import BaseComponent from '../component/BaseComponent';
 import DirectBankTransfer from '../component/DirectBankTransfer';
 import DirectDebit from '../component/DirectDebit';
+import Ideal from '../component/Ideal';
+import PayafterEinvoicing from '../component/PayafterEinvoicing';
 import { isMultisafepayPayment, isMultisafepayRecurringPayment } from '../util/Payment';
-import BaseComponent from '../component/BaseComponent';
 
 export const MULTISAFEPAY_IDEAL_CODE = 'multisafepay_ideal';
 export const MULTISAFEPAY_AFTERPAY_CODE = 'multisafepay_afterpay';
@@ -40,63 +40,58 @@ export class CheckoutPaymentsPlugin {
      * @param props
      * @returns {JSX.Element}
      */
+    // eslint-disable-next-line consistent-return
     renderMultisafepayPaymentComponent(props) {
         const {
             selectedPaymentCode,
             paymentMethods,
-            onPaymentMethodSelect,
-            selectPaymentMethod
+            onPaymentMethodSelect
         } = props;
-        const paymentData =  paymentMethods.find(o => o.code === selectedPaymentCode);
+        const paymentData = paymentMethods.find((o) => o.code === selectedPaymentCode);
 
+        // eslint-disable-next-line default-case
         switch (selectedPaymentCode) {
-            case MULTISAFEPAY_IDEAL_CODE:
-                return (
+        case MULTISAFEPAY_IDEAL_CODE:
+            return (
                     <Ideal
-                        paymentMethods = { paymentMethods }
-                        paymentData = { paymentData }
-                        onPaymentMethodSelect = { onPaymentMethodSelect }
-                        selectPaymentMethod = { selectPaymentMethod }
+                      paymentData={ paymentData }
+                      onPaymentMethodSelect={ onPaymentMethodSelect }
                     />
-                );
+            );
 
-            case MULTISAFEPAY_AFTERPAY_CODE:
-            case MULTISAFEPAY_IN3_CODE:
-                return (
+        case MULTISAFEPAY_AFTERPAY_CODE:
+        case MULTISAFEPAY_IN3_CODE:
+            return (
                     <AfterpayIn3
-                        paymentMethods = { paymentMethods }
-                        onPaymentMethodSelect = { onPaymentMethodSelect }
-                        selectedPaymentCode = { selectedPaymentCode }
+                      onPaymentMethodSelect={ onPaymentMethodSelect }
+                      selectedPaymentCode={ selectedPaymentCode }
                     />
-                );
+            );
 
-            case MULTISAFEPAY_PAYAFTER_CODE:
-            case MULTISAFEPAY_EINVOICING_CODE:
-                return (
+        case MULTISAFEPAY_PAYAFTER_CODE:
+        case MULTISAFEPAY_EINVOICING_CODE:
+            return (
                     <PayafterEinvoicing
-                        paymentMethods = { paymentMethods }
-                        onPaymentMethodSelect = { onPaymentMethodSelect }
-                        selectedPaymentCode = { selectedPaymentCode }
+                      onPaymentMethodSelect={ onPaymentMethodSelect }
+                      selectedPaymentCode={ selectedPaymentCode }
                     />
-                );
+            );
 
-            case MULTISAFEPAY_DIRECTBANKTRANSFER_CODE:
-                return (
+        case MULTISAFEPAY_DIRECTBANKTRANSFER_CODE:
+            return (
                     <DirectBankTransfer
-                        paymentMethods = { paymentMethods }
-                        onPaymentMethodSelect = { onPaymentMethodSelect }
-                        selectedPaymentCode = { selectedPaymentCode }
+                      onPaymentMethodSelect={ onPaymentMethodSelect }
+                      selectedPaymentCode={ selectedPaymentCode }
                     />
-                );
+            );
 
-            case MULTISAFEPAY_DIRECTDEBIT_CODE:
-                return (
+        case MULTISAFEPAY_DIRECTDEBIT_CODE:
+            return (
                     <DirectDebit
-                        paymentMethods = { paymentMethods }
-                        onPaymentMethodSelect = { onPaymentMethodSelect }
-                        selectedPaymentCode = { selectedPaymentCode }
+                      onPaymentMethodSelect={ onPaymentMethodSelect }
+                      selectedPaymentCode={ selectedPaymentCode }
                     />
-                );
+            );
         }
     }
 
@@ -128,24 +123,28 @@ export class CheckoutPaymentsPlugin {
         }
 
         if (isMultisafepayPayment(code)) {
-            const { multisafepay_additional_data: {
-                image: src
-            } } = method;
+            const {
+                multisafepay_additional_data: {
+                    image: src
+                }
+            } = method;
 
             const { selectPaymentMethod, selectedPaymentCode } = instance.props;
             const isSelected = selectedPaymentCode === code;
 
+            // eslint-disable-next-line consistent-return
             return (
                 <BaseComponent
-                    key={ code }
-                    isSelected={ isSelected }
-                    method={ method }
-                    onClick={ selectPaymentMethod }
-                    srcImage={ src }
+                  key={ code }
+                  isSelected={ isSelected }
+                  method={ method }
+                  onClick={ selectPaymentMethod }
+                  srcImage={ src }
                 />
             );
         }
 
+        // eslint-disable-next-line consistent-return
         return callback.apply(instance, args);
     };
 
@@ -161,9 +160,10 @@ export class CheckoutPaymentsPlugin {
         let { selectedPaymentCode } = instance.props;
         const result = callback.apply(instance, args);
 
+        // eslint-disable-next-line array-callback-return
         paymentMethods.map((method) => {
-            const { code, multisafepay_additional_data} = method;
-            const {is_preselected: isPreselected } = multisafepay_additional_data;
+            const { code, multisafepay_additional_data } = method;
+            const { is_preselected: isPreselected } = multisafepay_additional_data;
 
             if (isMultisafepayPayment(code) && isPreselected) {
                 selectPaymentMethod(method);

@@ -9,24 +9,24 @@
  */
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import Loader from 'Component/Loader';
-import { IDEAL_CONTAINER_ID } from './Ideal.config';
-import './Ideal.style';
-import { renderLabel } from '../../util/Form';
 
-/** @namespace MultiSafepay/Ideal/Component */
-export class Ideal extends PureComponent {
+import { renderLabel } from '../../util/Form';
+import { IDEAL_CONTAINER_ID } from './Ideal.config';
+
+import './Ideal.style';
+
+/** @namespace ScandipwaMultisafepayPaymentIntegration/Component/Ideal/Component/IdealComponent */
+export class IdealComponent extends PureComponent {
     static propTypes = {
-        paymentData: PropTypes.any.isRequired,
-        paymentMethods: PropTypes.any.isRequired,
-        onPaymentMethodSelect: PropTypes.func.isRequired,
-        selectPaymentMethod: PropTypes.func.isRequired
+        paymentData: PropTypes.objectOf(PropTypes.shape).isRequired,
+        onPaymentMethodSelect: PropTypes.func.isRequired
     };
 
     /**
      *
      * @returns {Ideal}
      */
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
     componentDidMount() {
         const { onPaymentMethodSelect, paymentData } = this.props;
         const { code } = paymentData;
@@ -35,7 +35,8 @@ export class Ideal extends PureComponent {
             code,
             {
                 issuer_id: 'xxx'
-            });
+            }
+        );
 
         return this;
     }
@@ -47,19 +48,19 @@ export class Ideal extends PureComponent {
     renderIssuers() {
         const { paymentData } = this.props;
         const { multisafepay_available_issuers } = paymentData;
-        const id = "ideal-issuers",
-            label = __('Choose Bank'),
-            block = "IdealSelect";
+        const id = 'ideal-issuers';
+        const label = __('Choose Bank');
+        const block = 'IdealSelect';
 
         return (
             <div>
                 { renderLabel(block, true, id, label) }
                 <select
-                    block={ block }
-                    elem="Select"
-                    name="issuerid"
-                    id={ id }
-                    onChange={ this.onChange }
+                  block={ block }
+                  elem="Select"
+                  name="issuerid"
+                  id={ id }
+                  onChange={ this.onChange }
                 >
                     <option value="" label={ __('Choose your bank...') } />
                     { multisafepay_available_issuers.map(this.renderIssuerOption) }
@@ -82,7 +83,8 @@ export class Ideal extends PureComponent {
             code,
             {
                 issuer_id: value
-            });
+            }
+        );
 
         return this;
     };
@@ -97,9 +99,9 @@ export class Ideal extends PureComponent {
 
         return (
             <option
-                key={ 'issuer_' + code }
-                id={ 'issuer_' + code }
-                value={ code }
+              key={ `issuer_${ code}` }
+              id={ `issuer_${ code}` }
+              value={ code }
             >
                 { description }
             </option>
@@ -121,4 +123,4 @@ export class Ideal extends PureComponent {
     }
 }
 
-export default Ideal;
+export default IdealComponent;
