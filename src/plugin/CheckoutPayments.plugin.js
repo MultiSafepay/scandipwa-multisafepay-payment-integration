@@ -157,6 +157,7 @@ export class CheckoutPaymentsPlugin {
      */
     aroundComponentDidMount = (args, callback = () => {}, instance) => {
         const { paymentMethods, selectPaymentMethod } = instance.props;
+        // eslint-disable-next-line fp/no-let
         let { selectedPaymentCode } = instance.props;
         const result = callback.apply(instance, args);
 
