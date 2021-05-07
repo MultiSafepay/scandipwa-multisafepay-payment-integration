@@ -7,11 +7,11 @@
  * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
  *
  */
-import {Field} from 'Util/Query';
 import { isSignedIn } from 'Util/Auth';
+import { Field } from 'Util/Query';
 
 /**
- * @namespace MultiSafepay/Query/Multisafepay/Query/MultisafepayQuery */
+ * @namespace ScandipwaMultisafepayPaymentIntegration/Query/Multisafepay/Query/MultisafepayQuery */
 export class MultisafepayQuery {
     /**
      *
@@ -28,7 +28,7 @@ export class MultisafepayQuery {
      * @returns {*}
      */
     getMultisafepayApiToken() {
-        return  new Field('getMultisafepayApiToken')
+        return new Field('getMultisafepayApiToken')
             .addFieldList(
                 [
                     'multisafepay_api_token'
@@ -174,7 +174,7 @@ export class MultisafepayQuery {
         return new Field('multisafepay_available_issuers')
             .addFieldList([
                 'code',
-                'description',
+                'description'
             ]);
     }
 
@@ -187,7 +187,7 @@ export class MultisafepayQuery {
         return new Field('multisafepay_additional_data')
             .addFieldList([
                 'image',
-                'is_preselected',
+                'is_preselected'
             ]);
     }
 

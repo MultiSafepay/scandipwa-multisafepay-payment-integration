@@ -7,21 +7,24 @@
  * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
  *
  */
+/* eslint-disable react/destructuring-assignment */
+
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import Loader from 'Component/Loader';
-import { PAYAFTER_EINVOICING_CONTAINER_ID } from './PayafterEinvoicing.config';
-import './PayafterEinvoicing.style';
-import { renderInputWithLabel } from '../../util/Form';
 
-/** @namespace MultiSafepay/PayafterEinvoicing/Component */
-export class PayafterEinvoicing extends PureComponent {
+import { renderInputWithLabel } from '../../util/Form';
+import { PAYAFTER_EINVOICING_CONTAINER_ID } from './PayafterEinvoicing.config';
+
+import './PayafterEinvoicing.style';
+
+/** @namespace ScandipwaMultisafepayPaymentIntegration/Component/PayafterEinvoicing/Component/PayafterEinvoicingComponent */
+export class PayafterEinvoicingComponent extends PureComponent {
     static propTypes = {
-        selectedPaymentCode: PropTypes.any.isRequired,
-        paymentMethods: PropTypes.any.isRequired,
+        selectedPaymentCode: PropTypes.string.isRequired,
         onPaymentMethodSelect: PropTypes.func.isRequired
     };
 
+    // eslint-disable-next-line @scandipwa/scandipwa-guidelines/only-render-in-component
     componentDidMount() {
         const { onPaymentMethodSelect, selectedPaymentCode } = this.props;
         this.setState({
@@ -33,8 +36,9 @@ export class PayafterEinvoicing extends PureComponent {
             selectedPaymentCode,
             {
                 date_of_birth: '',
-                account_number: '',
-            });
+                account_number: ''
+            }
+        );
     }
 
     /**
@@ -51,7 +55,8 @@ export class PayafterEinvoicing extends PureComponent {
             {
                 date_of_birth: value,
                 account_number: this.state.account_number
-            });
+            }
+        );
     };
 
     /**
@@ -68,32 +73,33 @@ export class PayafterEinvoicing extends PureComponent {
             {
                 date_of_birth: this.state.date_of_birth,
                 account_number: value
-            });
+            }
+        );
     };
 
     render() {
-        const inputId = "PayafterEinvoicingInput";
+        const inputId = 'PayafterEinvoicingInput';
 
         return (
             <div block="PayafterEinvoicing">
                 <div block="PayafterEinvoicing" elem="Form" id={ PAYAFTER_EINVOICING_CONTAINER_ID }>
                     { renderInputWithLabel(
                         inputId,
-                        "payafter-einvoicing-date-of-birth",
+                        'payafter-einvoicing-date-of-birth',
                         __('Date of Birth'),
                         this.updateDateOfBirth,
                         true,
-                        "text",
+                        'text',
                         __('dd-mm-yyyy')
                     ) }
 
                     { renderInputWithLabel(
                         inputId,
-                        "payafter-einvoicing-account-number",
+                        'payafter-einvoicing-account-number',
                         __('Account Number'),
                         this.updateAccountNumber,
                         true,
-                        "text",
+                        'text',
                         __('Bank account number e.g NL02ABNA0123456789')
                     ) }
                 </div>
@@ -102,4 +108,4 @@ export class PayafterEinvoicing extends PureComponent {
     }
 }
 
-export default PayafterEinvoicing;
+export default PayafterEinvoicingComponent;

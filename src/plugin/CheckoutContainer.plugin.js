@@ -8,19 +8,24 @@
  *
  */
 import { CART_TAB } from 'Component/NavigationTabs/NavigationTabs.config';
+import CartQuery from 'Query/Cart.query';
 import CheckoutQuery from 'Query/Checkout.query';
-import MultisafepayQuery from '../query/Multisafepay.query';
-import {BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS} from 'Route/Checkout/Checkout.config';
-import { getGuestQuoteId } from 'Util/Cart';
+import {
+    BILLING_STEP, DETAILS_STEP, PAYMENT_TOTALS
+} from 'Route/Checkout/Checkout.config';
+import { CART_TOTALS } from 'Store/Cart/Cart.reducer';
+import { showNotification } from 'Store/Notification/Notification.action';
 import { isSignedIn } from 'Util/Auth';
 import BrowserDatabase from 'Util/BrowserDatabase';
+import { deleteGuestQuoteId, getGuestQuoteId, setGuestQuoteId } from 'Util/Cart';
 import { fetchMutation } from 'Util/Request';
-import { isMultisafepayPayment } from '../util/Payment';
 import { ONE_MONTH_IN_SECONDS } from 'Util/Request/QueryDispatcher';
 
+import MultisafepayQuery from '../query/Multisafepay.query';
+import { isMultisafepayPayment } from '../util/Payment';
+import { MULTISAFEPAY_GUEST_CHECKOUT } from './Checkout.plugin';
 
 export class CheckoutContainerPlugin {
-
     // eslint-disable-next-line no-unused-vars
     aroundSavePaymentMethodAndPlaceOrder = async (args, callback = () => {}, instance) => {
         const { paymentMethod: { code, additional_data } } = args[0];
@@ -41,7 +46,7 @@ export class CheckoutContainerPlugin {
                         multisafepay_payment_url: {
                             payment_url: multisafepay_redirect_url,
                             error: multisafepay_payment_errors
-                        },
+                        }
                     }
                 }
             } = await fetchMutation(CheckoutQuery.getPlaceOrderMutation(guest_cart_id));
@@ -49,7 +54,7 @@ export class CheckoutContainerPlugin {
             const additionalData = {
                 multisafepay_redirect_url,
                 multisafepay_payment_errors,
-                code,
+                code
             };
 
             instance.setDetailsStep(order_id, additionalData);
@@ -99,53 +104,38 @@ export class CheckoutContainerPlugin {
             },
             instance._handleError
         );
-
-        // const queryData = await fetchQuery(
-        //     MultisafepayQuery.getPaymentMethodsWithAdditionalMeta(getGuestQuoteId())
-        // );
     };
 
-
-    /**
-     *
-     * @param args
-     * @param callback
-     * @param instance
-     * @returns {*}
-     */
+    // eslint-disable-next-line no-unused-vars
     aroundSetDetailsStep = (args, callback = () => {}, instance) => {
         const { resetCart, resetGuestCart, setNavigationState } = instance.props;
         const { showErrorNotification } = instance.props;
         const { code, multisafepay_payment_errors, multisafepay_redirect_url } = args[1] || {};
 
         if (isMultisafepayPayment(code)) {
-            if (multisafepay_payment_errors !== "") {
+            if (multisafepay_payment_errors !== '') {
                 showErrorNotification(multisafepay_payment_errors);
                 instance.setState({ isLoading: false });
 
                 return;
             }
 
-            if (multisafepay_redirect_url !== "") {
-                if (!isSignedIn()) {
-                    BrowserDatabase.deleteItem(getGuestQuoteId());
-                }
-
+            if (multisafepay_redirect_url !== '') {
                 BrowserDatabase.deleteItem(PAYMENT_TOTALS);
+
                 if (isSignedIn()) {
                     resetCart();
-                } else {
-                    resetGuestCart();
                 }
 
-                instance.setState({isLoading: false, paymentTotals: {}});
+                instance.setState({ isLoading: false, paymentTotals: {} });
 
+                // eslint-disable-next-line consistent-return,no-return-assign
                 return window.location = multisafepay_redirect_url;
             }
         }
 
-        if (!isSignedIn()) {
-            BrowserDatabase.deleteItem(getGuestQuoteId());
+        if (!isSignedIn() && getGuestQuoteId()) {
+            deleteGuestQuoteId();
         }
 
         BrowserDatabase.deleteItem(PAYMENT_TOTALS);
@@ -153,6 +143,16 @@ export class CheckoutContainerPlugin {
         if (isSignedIn()) {
             resetCart();
         } else {
+            if (BrowserDatabase.getItem(MULTISAFEPAY_GUEST_CHECKOUT)) {
+                BrowserDatabase.deleteItem(CART_TOTALS);
+                fetchMutation(CartQuery.getCreateEmptyCartMutation()).then(
+                    ({ createEmptyCart }) => {
+                        setGuestQuoteId(createEmptyCart);
+                        resetGuestCart();
+                    }, (error) => showNotification('error', error[0].message)
+                );
+            }
+
             resetGuestCart();
         }
 

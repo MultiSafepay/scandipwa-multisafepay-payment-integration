@@ -13,7 +13,7 @@ export class CheckoutQueryPlugin {
     /**
      * @returns [Field]
      */
-    aroundGetOrderField = (args, callback, instance) => new Field('order')
+    aroundGetOrderField = () => new Field('order')
         .addFieldList([
             'order_id',
             this.getMultisafepayUrlFieldField()

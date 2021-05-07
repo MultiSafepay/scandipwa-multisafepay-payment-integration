@@ -7,27 +7,23 @@
  * @link https://github.com/MultiSafepay/scandipwa-multisafepay-payment-integration
  *
  */
-/* eslint-disable fp/no-let */
 
 /**
  * @param {String} block
  * @param {Boolean} isRequired
  * @param {String} id
  * @param {String} label
- * @namespace MultiSafepay/Util/Form/renderLabel
- */
-export const renderLabel = (block, isRequired, id, label) => {
-    return (
+ * @namespace ScandipwaMultisafepayPaymentIntegration/Util/Form/renderLabel */
+export const renderLabel = (block, isRequired, id, label) => (
         <label
-            block={block}
-            elem="Label"
-            required={isRequired}
-            htmlFor={id}
+          block={ block }
+          elem="Label"
+          required={ isRequired }
+          htmlFor={ id }
         >
-            {label}
+            { label }
         </label>
-    );
-};
+);
 
 /**
  * @param {String} block
@@ -37,31 +33,28 @@ export const renderLabel = (block, isRequired, id, label) => {
  * @param {Boolean} isRequired
  * @param {String} type
  * @param {String} placeholder
- * @namespace MultiSafepay/Util/Form/renderInput
- */
+ * @namespace ScandipwaMultisafepayPaymentIntegration/Util/Form/renderInputWithLabel */
 export const renderInputWithLabel = (
     block,
     id,
     label,
     onChange,
     isRequired = true,
-    type = "text",
-    placeholder = "",
-) => {
-    return (
+    type = 'text',
+    placeholder = '',
+) => (
         <div block={ block }>
             { renderLabel(block, isRequired, id, label) }
 
             <input
-                block={ block }
-                type={ type }
-                id={ id }
-                name={ id }
-                title={ label }
-                required={ isRequired }
-                placeholder={ placeholder }
-                onChange={ onChange }
+              block={ block }
+              type={ type }
+              id={ id }
+              name={ id }
+              title={ label }
+              required={ isRequired }
+              placeholder={ placeholder }
+              onChange={ onChange }
             />
         </div>
-    );
-};
+);
