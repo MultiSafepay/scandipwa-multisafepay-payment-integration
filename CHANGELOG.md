@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-## [1.1.0] - 2021-04-30
+## [1.0.1] - 2021-05-17
 ### Fixed
 - Fixed issue related to failed user redirects to cart after completed orders with MultiSafepay payment method
 - Internal Server error fixed when adding products to cart after success completed order
